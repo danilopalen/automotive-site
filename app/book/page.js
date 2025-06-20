@@ -122,7 +122,7 @@ export default function BookingPage() {
         const data = await response.json();
 
         if (response.ok) {
-          setEmailSent(true);
+          console.log("🚀 ~ handleSubmit ~ email sent:");
         } else {
           throw new Error(data.message || "Failed to process booking");
         }
