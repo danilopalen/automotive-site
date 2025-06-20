@@ -181,19 +181,58 @@ export default function RootLayout({ children }) {
 
               <nav className="nav-menu">
                 <li>
-                  <a href="#" className="nav-link">
+                  <span
+                    onClick={() => {
+                      // Get the element by its ID
+                      const element = document.getElementById("services");
+                      // Check if the element exists before spanttempting to scroll
+                      if (element) {
+                        // Scroll the element into view
+                        element.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
+                    className="nav-link"
+                  >
                     SERVICES
-                  </a>
+                  </span>
                 </li>
                 <li>
-                  <a href="#" className="nav-link">
+                  <span
+                    onClick={() => {
+                      // Get the element by its ID
+                      const element = document.getElementById("booking");
+                      // Check if the element exists before spanttempting to scroll
+                      if (element) {
+                        // Scroll the element into view
+                        element.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
+                    className="nav-link"
+                  >
                     BOOKING
-                  </a>
+                  </span>
                 </li>
                 <li>
-                  <a href="#" className="nav-link">
+                  <span
+                    onClick={() => {
+                      // Get the element by its ID
+                      const element = document.getElementById("shopInfo");
+                      // Check if the element exists before spanttempting to scroll
+                      if (element) {
+                        // Scroll the element into view
+                        element.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
+                    className="nav-link"
+                  >
                     SHOP INFO
-                  </a>
+                  </span>
                 </li>
               </nav>
 

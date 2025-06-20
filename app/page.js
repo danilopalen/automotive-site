@@ -118,6 +118,7 @@ const AutomotiveLanding = () => {
 
       {/* Services Section */}
       <section
+        id="services"
         style={{
           padding: "4rem 2rem",
           background: "#231F20",
@@ -201,6 +202,7 @@ const AutomotiveLanding = () => {
       </section>
 
       <section
+        id="booking"
         style={{
           padding: "4rem 2rem",
           background: "#EEEEEE",
@@ -210,6 +212,7 @@ const AutomotiveLanding = () => {
       </section>
       {/* Contact Section */}
       <section
+        id="shopInfo"
         style={{
           padding: "4rem 2rem",
           background: "#231F20",
