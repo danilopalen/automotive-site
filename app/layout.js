@@ -247,7 +247,17 @@ export default function RootLayout({ children }) {
                   <a
                     href="#"
                     className="mobile-nav-link"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => {
+                      // Get the element by its ID
+                      const element = document.getElementById("services");
+                      // Check if the element exists before spanttempting to scroll
+                      if (element) {
+                        // Scroll the element into view
+                        element.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
                   >
                     SERVICES
                   </a>
@@ -256,7 +266,17 @@ export default function RootLayout({ children }) {
                   <a
                     href="#"
                     className="mobile-nav-link"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => {
+                      // Get the element by its ID
+                      const element = document.getElementById("booking");
+                      // Check if the element exists before spanttempting to scroll
+                      if (element) {
+                        // Scroll the element into view
+                        element.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
                   >
                     BOOKING
                   </a>
@@ -265,7 +285,17 @@ export default function RootLayout({ children }) {
                   <a
                     href="#"
                     className="mobile-nav-link"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => {
+                      // Get the element by its ID
+                      const element = document.getElementById("shopInfo");
+                      // Check if the element exists before spanttempting to scroll
+                      if (element) {
+                        // Scroll the element into view
+                        element.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
                   >
                     SHOP INFO
                   </a>
