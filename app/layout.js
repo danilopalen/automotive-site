@@ -74,7 +74,7 @@ export default function RootLayout({ children }) {
 
           .nav-link:hover {
             color: #231F20;
-            background: #f8f9fa;
+            background: #fff;
           }
 
           .mobile-menu-toggle {
@@ -89,7 +89,7 @@ export default function RootLayout({ children }) {
 
           .mobile-menu-toggle:hover {
             color: #231F20;
-            background: #f8f9fa;
+            background: #fff;
           }
 
           .mobile-menu {
@@ -129,7 +129,7 @@ export default function RootLayout({ children }) {
 
           .mobile-nav-link:hover {
             color: #231F20;
-            background: #f8f9fa;
+            background: #fff;
           }
 
           .main-content {
@@ -248,6 +248,7 @@ export default function RootLayout({ children }) {
                     href="#"
                     className="mobile-nav-link"
                     onClick={() => {
+                      setIsMenuOpen(false);
                       // Get the element by its ID
                       const element = document.getElementById("services");
                       // Check if the element exists before spanttempting to scroll
@@ -267,6 +268,7 @@ export default function RootLayout({ children }) {
                     href="#"
                     className="mobile-nav-link"
                     onClick={() => {
+                      setIsMenuOpen(false);
                       // Get the element by its ID
                       const element = document.getElementById("booking");
                       // Check if the element exists before spanttempting to scroll
@@ -286,6 +288,7 @@ export default function RootLayout({ children }) {
                     href="#"
                     className="mobile-nav-link"
                     onClick={() => {
+                      setIsMenuOpen(false);
                       // Get the element by its ID
                       const element = document.getElementById("shopInfo");
                       // Check if the element exists before spanttempting to scroll
