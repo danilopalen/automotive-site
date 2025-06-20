@@ -344,7 +344,7 @@ const AutomotiveLanding = () => {
                 >
                   Payment Options
                 </div>
-                <div style={{ color: "#FFFFFF" }}>Eftposs</div>
+                <div style={{ color: "#FFFFFF" }}>Eftpos</div>
                 <div style={{ color: "#FFFFFF" }}>VISA MASTER</div>
                 <div style={{ color: "#FFFFFF" }}>Cash</div>
               </div>

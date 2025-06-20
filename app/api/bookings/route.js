@@ -24,6 +24,7 @@ function generateEmailContent(booking) {
 
       Thank you for your booking! Here are your booking details:
 
+      Service: ${booking.service}
       Date: ${new Date(booking.date).toLocaleDateString()}
       Time: ${booking.time}
 
@@ -40,10 +41,12 @@ function generateEmailContent(booking) {
         <p>Thank you for your booking! Here are your booking details:</p>
 
         <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px;">
+          <p><strong>Service:</strong> ${booking.service}</p>
           <p><strong>Date:</strong> ${new Date(
             booking.date
           ).toLocaleDateString()}</p>
           <p><strong>Time:</strong> ${booking.time}</p>
+          <p><strong>Location:</strong>8/74 Westpoint Drive. Hobsonville Auckland 0618</p>
         </div>
 
         <p>Best regards,<br>Zipang Automotive</p>
@@ -53,7 +56,7 @@ function generateEmailContent(booking) {
 }
 
 function generateICSFile(booking) {
-  const calendar = ical({ name: "Lesson Booking" });
+  const calendar = ical({ name: "Booking with Zipang Automotive" });
   const dateAndTime = booking.date.replace("00:00:00", `${booking.time}:00`);
   const startDate = new Date(`${dateAndTime}`);
   const endDate = new Date(
@@ -63,12 +66,12 @@ function generateICSFile(booking) {
   calendar.createEvent({
     start: startDate,
     end: endDate,
-    summary: `${booking.service} with Yuta`,
-    description: `Lesson booking for ${booking.name}`,
-    location: booking.location,
+    summary: `${booking.service} with Zipang Automotive`,
+    description: `${booking.service} booking for ${booking.firstName}`,
+    location: "8/74 Westpoint Drive. Hobsonville Auckland 0618",
     timezone: "Pacific/Auckland", // Key point for NZ timezone
     organizer: {
-      name: "Learning Center",
+      name: "Zipang Automotive",
       email: process.env.NEXT_PUBLIC_EMAIL_FROM_ADDRESS,
     },
   });
@@ -99,7 +102,7 @@ export async function POST(request) {
       html: emailContent.html,
       attachments: [
         {
-          filename: "lesson-booking.ics",
+          filename: "service-booking.ics",
           content: icsContent,
           contentType: "text/calendar",
         },

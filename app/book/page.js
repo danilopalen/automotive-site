@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function BookingPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    // service: "",
+    service: "",
     date: "",
     time: "",
     firstName: "",
@@ -22,50 +22,52 @@ export default function BookingPage() {
 
   const services = [
     {
-      id: "consultation",
-      name: "Consultation",
-      duration: "30 min",
-      price: "$50",
+      id: "WOF",
+      name: "WOF",
+      price: "$50 + GST",
     },
     {
-      id: "basic-package",
-      name: "Basic Package",
-      duration: "1 hour",
-      price: "$100",
+      id: "Service",
+      name: "Service",
+      price: "TBA",
     },
     {
-      id: "premium-package",
-      name: "Premium Package",
-      duration: "2 hours",
-      price: "$200",
+      id: "Full Service",
+      name: "Full Service",
+      price: "TBA",
     },
     {
-      id: "custom-service",
-      name: "Custom Service",
-      duration: "Variable",
-      price: "Contact us",
+      id: "Repair",
+      name: "Repair",
+      price: "TBA",
+    },
+    {
+      id: "Tyre Replacement",
+      name: "Tyre Replacement",
+      price: "TBA",
+    },
+    {
+      id: "Puncture Repair",
+      name: "Puncture Repair",
+      price: "TBA",
+    },
+    {
+      id: "Diagnosis",
+      name: "Diagnosis",
+      price: "TBA",
     },
   ];
 
   const timeSlots = [
     "08:30am",
-    "09:00am",
     "09:30am",
-    "10:00am",
     "10:30am",
-    "11:00am",
     "11:30am",
-    "12:00pm",
     "12:30pm",
-    "01:00pm",
     "01:30pm",
-    "02:00pm",
     "02:30pm",
-    "03:00pm",
     "03:30pm",
-    "04:00pm",
     "04:30pm",
-    "05:00pm",
     "05:30pm",
   ];
 
@@ -88,7 +90,7 @@ export default function BookingPage() {
   const validateForm = () => {
     const newErrors = {};
 
-    // if (!formData.service) newErrors.service = "Please select a service";
+    if (!formData.service) newErrors.service = "Please select a service";
     if (!formData.date) newErrors.date = "Please select a date";
     if (!formData.time) newErrors.time = "Please select a time";
     if (!formData.firstName) newErrors.firstName = "First name is required";
@@ -147,10 +149,10 @@ export default function BookingPage() {
           </p>
           <div style={styles.bookingDetails}>
             <h3>Booking Details:</h3>
-            {/* <p>
+            <p>
               <strong>Service:</strong>{" "}
               {services.find((s) => s.id === formData.service)?.name}
-            </p> */}
+            </p>
             <p>
               <strong>Date:</strong>{" "}
               {new Date(formData.date).toLocaleDateString()}
@@ -169,7 +171,7 @@ export default function BookingPage() {
 
   return (
     <div style={styles.container}>
-      <div style={styles.bookingCard}>
+      <div className="bookingCard" style={styles.bookingCard}>
         <div style={styles.header}>
           <h2
             style={{
@@ -186,7 +188,7 @@ export default function BookingPage() {
 
         <div style={styles.form}>
           {/* Service Selection */}
-          {/* <div style={styles.section}>
+          <div style={styles.section}>
             <h3 style={styles.sectionTitle}>Select Service</h3>
             <div style={styles.serviceGrid}>
               {services.map((service) => (
@@ -205,7 +207,6 @@ export default function BookingPage() {
                   }
                 >
                   <h4 style={styles.serviceName}>{service.name}</h4>
-                  //  <p style={styles.serviceDuration}>{service.duration}</p>
                   <p style={styles.servicePrice}>{service.price}</p>
                 </div>
               ))}
@@ -213,7 +214,7 @@ export default function BookingPage() {
             {errors.service && (
               <span style={styles.errorText}>{errors.service}</span>
             )}
-          </div>*/}
+          </div>
 
           {/* Date & Time Selection */}
           <div style={styles.section}>
@@ -361,7 +362,14 @@ export default function BookingPage() {
             sepia(100%)
             saturate(10000%)
             hue-rotate(180deg)
-        }`}
+        }
+
+        @media (max-width: 768px) {
+          .bookingCard {
+            padding: 0 !important
+          }
+        }
+        `}
       </style>
     </div>
   );
@@ -442,24 +450,25 @@ const styles = {
   },
   servicePrice: {
     fontSize: "16px",
-    color: "#667eea",
+    color: "rgb(35, 31, 32)",
     margin: 0,
     fontWeight: "600",
   },
   dateTimeRow: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    display: "flex",
+    flexWrap: "wrap",
     gap: "20px",
   },
   nameRow: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    display: "flex",
+    flexWrap: "wrap",
     gap: "20px",
   },
   inputGroup: {
     display: "flex",
     flexDirection: "column",
     gap: "8px",
+    flex: 1,
   },
   label: {
     fontSize: "14px",
