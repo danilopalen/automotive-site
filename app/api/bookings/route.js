@@ -24,7 +24,6 @@ function generateEmailContent(booking) {
 
       Thank you for your booking! Here are your booking details:
 
-      Service: ${booking.service}
       Date: ${new Date(booking.date).toLocaleDateString()}
       Time: ${booking.time}
 
@@ -41,7 +40,6 @@ function generateEmailContent(booking) {
         <p>Thank you for your booking! Here are your booking details:</p>
 
         <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px;">
-          <p><strong>Service:</strong> ${booking.service}</p>
           <p><strong>Date:</strong> ${new Date(
             booking.date
           ).toLocaleDateString()}</p>

@@ -11,30 +11,67 @@ import {
   Clock,
 } from "lucide-react";
 
-import logo from "../public/photos/zipangautomotive.png";
-import banner from "../public/photos/banner.jpg";
+import zipangautomotive from "../public/photos/zipangautomotive.png";
+import Wof from "./_components/Wof";
+import Service from "./_components/Service";
+import Repaires from "./_components/Repaires";
+import Tyres from "./_components/Tyres";
+import FullService from "./_components/FullService";
+import Diagnosis from "./_components/Diagnosis";
+import PunctureRepairs from "./_components/PunctureRepairs";
+import zipangautomotive_footer from "../public/photos/zipangautomotive_footer.png";
+import facebook from "../public/photos/facebook.png";
+import instagram from "../public/photos/instagram.png";
+import whatsapp from "../public/photos/whatsapp.png";
+import BookingPage from "./book/page";
 import Image from "next/image";
+import "./globals.css";
 import { useRouter } from "next/navigation";
 
 const AutomotiveLanding = () => {
   const router = useRouter();
   const services = [
     {
-      icon: <Car className="w-8 h-8" />,
-      title: "Auto Repair",
+      icon: <Wof />,
+      title: "WOF",
       description:
-        "Complete diagnostic and repair services for all vehicle makes and models",
+        "It will take about 40 minutes. It depends on the car model.",
     },
     {
-      icon: <Wrench className="w-8 h-8" />,
-      title: "Maintenance",
+      icon: <Service />,
+      title: "Service",
       description:
-        "Regular maintenance services to keep your vehicle running smoothly",
+        "You can choose between Semisynthetic oil or Full synthetic oil. We also stock engine oil specifically for DPF.",
     },
     {
-      icon: <Shield className="w-8 h-8" />,
-      title: "Quality Guarantee",
-      description: "All work backed by our warranty and satisfaction guarantee",
+      icon: <FullService />,
+      title: "Full Service",
+      description:
+        "Change the engine oil and inspect the vehicle.Also inspect the spark plugs, alternator, brakes, drive belts,and battery test.(Not Hybrid Battery)",
+    },
+    {
+      icon: <Repaires />,
+      title: "Repair",
+      description:
+        "We perform general repairs.We do not install illegal modified parts.",
+    },
+    {
+      icon: <Tyres />,
+      title: "Tyre",
+      description:
+        "Tire replacement requires a tire order in advance. Wheel balancing is also available.",
+    },
+    {
+      icon: <PunctureRepairs />,
+      title: "Puncture Repair",
+      description:
+        "Puncture repairs will only be done to nails on the tread surface. Punctures on the sidewall or edges cannot be repaired.",
+    },
+    {
+      icon: <Diagnosis />,
+      title: "Diagnosis",
+      description:
+        "If the warning light comes on, use a diagnostic tester to find out the cause.",
     },
   ];
 
@@ -47,70 +84,35 @@ const AutomotiveLanding = () => {
     >
       {/* Hero Section */}
       <section
+        className="hero_section"
         style={{
-          minHeight: "90vh",
-          background: "#231c23",
+          height: "520px",
           display: "flex",
           alignItems: "center",
+          justifyContent: "center",
           padding: "2rem",
+          backgroundImage: `url(${zipangautomotive.src})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover", // Ensures the image covers the entire element
+          backgroundPosition: "center", // Centers the background image
+          marginTop: "56px",
         }}
       >
         <div
           style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "4rem",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
             alignItems: "center",
+            paddingTop: "50px",
+            height: "100%",
           }}
         >
-          <div>
-            <Image
-              src={logo}
-              alt="logo"
-              height={200}
-              width={500}
-              style={{ border: "4px solid #fff" }}
-            />
-            <p
-              style={{
-                fontSize: "1.2rem",
-                color: "#e9e7e8",
-                lineHeight: "1.6",
-                marginBottom: "2rem",
-              }}
-            >
-              Professional automotive service with experienced technicians. From
-              routine maintenance to major repairs, we keep your vehicle running
-              reliably.
-            </p>
-            <div style={{ display: "flex", gap: "1rem" }}>
-              <button
-                style={{
-                  padding: "0.75rem 2rem",
-                  background: "#e9e7e8",
-                  color: "#231c23",
-                  border: "2px solid #e9e7e8",
-                  borderRadius: "8px",
-                  fontSize: "1rem",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                }}
-                onClick={() => router.push("/book")}
-              >
-                Book Now
-              </button>
-            </div>
-          </div>
-
-          <Image
-            src={banner}
-            alt="wof banner"
-            height={200}
-            width={500}
-            style={{ border: "4px solid #e9e7e8", borderRadius: "1rem" }}
-          />
+          <span className="heading">CERTIFIED WOF WORKSHOP</span>
+          <span className="subheading">
+            {`The WOF is carried out by experienced inspectors who have inspected
+            over 20,000 vehicles at New Zealand's largest WOF site.`}
+          </span>
         </div>
       </section>
 
@@ -118,48 +120,40 @@ const AutomotiveLanding = () => {
       <section
         style={{
           padding: "4rem 2rem",
-          background: "#231c23",
+          background: "#231F20",
         }}
       >
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <div>
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
             <h2
               style={{
-                fontSize: "2.5rem",
+                fontSize: "20px",
                 fontWeight: "700",
                 color: "#e9e7e8",
                 marginBottom: "1rem",
+                fontFamily: "Oswald",
               }}
             >
-              Our Services
+              SERVICES
             </h2>
-            <p
-              style={{
-                fontSize: "1.1rem",
-                color: "#8c8c8c",
-                maxWidth: "600px",
-                margin: "0 auto",
-              }}
-            >
-              Professional automotive solutions for all your vehicle needs
-            </p>
           </div>
 
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "2rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(308px, 308px))",
+              gap: "16px",
+              justifyContent: "center",
             }}
           >
             {services.map((service, index) => (
               <div
                 key={index}
                 style={{
-                  padding: "2rem",
-                  borderRadius: "12px",
-                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.47)",
-                  background: "#fff",
+                  width: "308px",
+                  height: "270px",
+                  border: "1px solid rgba(170, 170, 170, 0.3)",
+                  background: "#231F20",
                   textAlign: "center",
                 }}
               >
@@ -167,22 +161,23 @@ const AutomotiveLanding = () => {
                   style={{
                     width: "60px",
                     height: "60px",
-                    background: "#8c848c",
                     borderRadius: "12px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#e9e7e8",
-                    margin: "0 auto 1.5rem",
+                    color: "#FFFFFF",
+                    margin: "10px 0",
+                    width: "100%",
                   }}
                 >
                   {service.icon}
                 </div>
                 <h3
                   style={{
-                    fontSize: "1.3rem",
-                    fontWeight: "600",
-                    color: "#231c23",
+                    fontFamily: "Inter",
+                    fontSize: "18px",
+                    fontWeight: "700",
+                    color: "#FFFFFF",
                     marginBottom: "1rem",
                   }}
                 >
@@ -190,7 +185,10 @@ const AutomotiveLanding = () => {
                 </h3>
                 <p
                   style={{
-                    color: "#231c23",
+                    fontFamily: "Inter",
+                    fontSize: "16px",
+                    fontWeight: "400",
+                    color: "#FFFFFF",
                     lineHeight: "1.6",
                   }}
                 >
@@ -202,143 +200,216 @@ const AutomotiveLanding = () => {
         </div>
       </section>
 
+      <section
+        style={{
+          padding: "4rem 2rem",
+          background: "#EEEEEE",
+        }}
+      >
+        <BookingPage />
+      </section>
       {/* Contact Section */}
       <section
         style={{
           padding: "4rem 2rem",
-          background: "#e9e7e8",
+          background: "#231F20",
         }}
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "4rem",
+              display: "flex",
+              flexDirection: "column",
               alignItems: "center",
             }}
           >
-            <div>
+            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
               <h2
                 style={{
-                  fontSize: "2.5rem",
+                  fontSize: "20px",
                   fontWeight: "700",
-                  color: "#231c23",
-                  marginBottom: "1.5rem",
+                  color: "#e9e7e8",
+                  marginBottom: "1rem",
+                  fontFamily: "Oswald",
                 }}
               >
-                Get in Touch
+                SHOP INFO
               </h2>
-              <p
+            </div>
+            <div
+              style={{
+                minHeight: "109px",
+                display: "flex",
+                gap: "20px",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              <div style={{ width: "210px" }}>
+                <div
+                  style={{
+                    color: "#AAAAAA",
+                    marginBottom: "12px",
+                    fontFamily: "Inter",
+                    fontWeight: "700",
+                    fontSize: "18px",
+                  }}
+                >
+                  Address
+                </div>
+                <div style={{ color: "#FFFFFF" }}>
+                  8/74 Westpoint Drive. Hobsonville Auckland 0618
+                </div>
+              </div>
+              <div
+                className="shop_info"
                 style={{
-                  fontSize: "1.1rem",
-                  color: "#231c23",
-                  lineHeight: "1.6",
-                  marginBottom: "2rem",
+                  width: "210px",
+                  borderLeft: "1px solid rgba(170, 170, 170, 0.3)",
+                  paddingLeft: "20px",
                 }}
               >
-                {`Schedule your appointment today. We're here to help keep your
-                vehicle running smoothly.`}
-              </p>
-
+                <div
+                  style={{
+                    color: "#AAAAAA",
+                    marginBottom: "12px",
+                    fontFamily: "Inter",
+                    fontWeight: "700",
+                    fontSize: "18px",
+                  }}
+                >
+                  Contact
+                </div>
+                <div style={{ color: "#FFFFFF" }}>022 171 1078</div>
+              </div>
+              <div
+                className="shop_info"
+                style={{
+                  width: "210px",
+                  borderLeft: "1px solid rgba(170, 170, 170, 0.3)",
+                  paddingLeft: "20px",
+                }}
+              >
+                <div
+                  style={{
+                    color: "#AAAAAA",
+                    marginBottom: "12px",
+                    fontFamily: "Inter",
+                    fontWeight: "700",
+                    fontSize: "18px",
+                  }}
+                >
+                  Trading Hours
+                </div>
+                <div
+                  style={{
+                    color: "#FFFFFF",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "170px",
+                  }}
+                >
+                  <span>Mon - Fri</span> <span>8:30-18:00</span>
+                </div>
+                <div
+                  style={{
+                    color: "#FFFFFF",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "170px",
+                  }}
+                >
+                  <span>Sat</span> <span>9:00-15:00</span>
+                </div>
+              </div>
+              <div
+                className="shop_info"
+                style={{
+                  width: "210px",
+                  borderLeft: "1px solid rgba(170, 170, 170, 0.3)",
+                  paddingLeft: "20px",
+                }}
+              >
+                <div
+                  style={{
+                    color: "#AAAAAA",
+                    marginBottom: "12px",
+                    fontFamily: "Inter",
+                    fontWeight: "700",
+                    fontSize: "18px",
+                  }}
+                >
+                  Payment Options
+                </div>
+                <div style={{ color: "#FFFFFF" }}>Eftposs</div>
+                <div style={{ color: "#FFFFFF" }}>VISA MASTER</div>
+                <div style={{ color: "#FFFFFF" }}>Cash</div>
+              </div>
+            </div>
+            <div style={{ width: "960px", margin: "3rem 0" }}>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3194.310823026452!2d174.62848077603869!3d-36.81107107224402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0d3fbe1833bf5d%3A0xa181d49b0195d90a!2s8%2F74%20Westpoint%20Drive%2C%20Hobsonville%2C%20Auckland%200618!5e0!3m2!1sen!2snz!4v1750407911473!5m2!1sen!2snz"
+                width="956"
+                height="318"
+                style={{ border: "none" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+            <div
+              style={{
+                width: "960px",
+                margin: "3rem 0",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Image src={zipangautomotive_footer} alt="Zipang automotive" />
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
+                  gap: "22px",
+                  marginTop: "1.5rem",
+                  alignItems: "center",
                 }}
               >
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-                >
-                  <Phone
-                    style={{ color: "#231c23", width: "20px", height: "20px" }}
-                  />
-                  <span style={{ color: "#231c23" }}>022 171 1078</span>
-                </div>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-                >
-                  <Mail
-                    style={{ color: "#231c23", width: "20px", height: "20px" }}
-                  />
-                  <span style={{ color: "#231c23" }}>
-                    zipangautomotive@gmail.com
-                  </span>
-                </div>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-                >
-                  <MapPin
-                    style={{ color: "#231c23", width: "20px", height: "20px" }}
-                  />
-                  <span style={{ color: "#231c23" }}>
-                    8/74 Westpoint Drive Hobsonville, New Zealand 0618
-                  </span>
-                </div>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-                >
-                  <Clock
-                    style={{ color: "#231c23", width: "20px", height: "20px" }}
-                  />
-                  <span style={{ color: "#231c23" }}>
-                    Mon-Fri: 8:30AM-6:00PM, Sat: 9:00AM-3:00PM
-                  </span>
-                </div>
+                <Image src={facebook} alt="Zipang automotive facebook" />
+                <Image src={instagram} alt="Zipang automotive instagram" />
+                <Image src={whatsapp} alt="Zipang automotive whatsapp" />
               </div>
             </div>
-
-            <div
+            <span
               style={{
-                padding: "2.5rem",
-                borderRadius: "12px",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.47)",
-                textAlign: "center",
+                color: "#AAAAAA",
+                fontSize: "14px",
+                fontFamily: "Oswald",
               }}
             >
-              <h3
-                style={{
-                  color: "#231c23",
-                  fontSize: "1.5rem",
-                  fontWeight: "600",
-                  marginBottom: "1rem",
-                }}
-              >
-                Book Your Service
-              </h3>
-              <p
-                style={{
-                  color: "#231c23",
-                  marginBottom: "2rem",
-                  lineHeight: "1.6",
-                }}
-              >
-                Ready to schedule your appointment? Contact us today for
-                professional automotive service.
-              </p>
-              <button
-                style={{
-                  padding: "1rem 2rem",
-                  background: "#231c23",
-                  color: "#e9e7e8",
-                  border: "none",
-                  borderRadius: "8px",
-                  fontSize: "1.1rem",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                  width: "100%",
-                }}
-                onClick={() => router.push("/book")}
-              >
-                BOOK NOW
-              </button>
-            </div>
+              Zipang Automotive @ 2025. All rights reserved.
+            </span>
           </div>
         </div>
       </section>
 
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Oswald&display=swap');
+
+        .heading {
+          font-family: Oswald;
+          color: #FFF;
+          font-size: 76px;
+        }
+
+        .subheading {
+          font-family: Inter;
+          color: #FFF;
+          font-size: 16px;
+          text-align: center;
+          padding: 0 1rem;
+        }
+
         * {
           margin: 0;
           padding: 0;
@@ -357,6 +428,18 @@ const AutomotiveLanding = () => {
 
           h2 {
             font-size: 2rem !important;
+          }
+
+          .heading {
+            font-size: 50px;
+            text-align: center;
+            word-break: break-word;
+            width: 100vw;
+          }
+
+          .shop_info {
+            border-left: none !important;
+            padding-left: 0 !important
           }
         }
       `}</style>

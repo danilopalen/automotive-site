@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function BookingPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    service: "",
+    // service: "",
     date: "",
     time: "",
     firstName: "",
@@ -88,7 +88,7 @@ export default function BookingPage() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.service) newErrors.service = "Please select a service";
+    // if (!formData.service) newErrors.service = "Please select a service";
     if (!formData.date) newErrors.date = "Please select a date";
     if (!formData.time) newErrors.time = "Please select a time";
     if (!formData.firstName) newErrors.firstName = "First name is required";
@@ -147,10 +147,10 @@ export default function BookingPage() {
           </p>
           <div style={styles.bookingDetails}>
             <h3>Booking Details:</h3>
-            <p>
+            {/* <p>
               <strong>Service:</strong>{" "}
               {services.find((s) => s.id === formData.service)?.name}
-            </p>
+            </p> */}
             <p>
               <strong>Date:</strong>{" "}
               {new Date(formData.date).toLocaleDateString()}
@@ -162,14 +162,6 @@ export default function BookingPage() {
               <strong>Name:</strong> {formData.firstName} {formData.lastName}
             </p>
           </div>
-          <button
-            style={styles.newBookingBtn}
-            onClick={() => {
-              router.push("/");
-            }}
-          >
-            Back To Home
-          </button>
         </div>
       </div>
     );
@@ -179,23 +171,22 @@ export default function BookingPage() {
     <div style={styles.container}>
       <div style={styles.bookingCard}>
         <div style={styles.header}>
-          {" "}
-          <Image
-            src={logo}
-            alt="logo"
-            height={150}
-            width={400}
-            style={{ border: "4px solid #fff" }}
-          />
-          <h1 style={styles.title}>Book Your Appointment</h1>
-          <p style={styles.subtitle}>
-            Choose your preferred service and time slot
-          </p>
+          <h2
+            style={{
+              fontSize: "20px",
+              fontWeight: "700",
+              color: "rgba(35, 31, 32, 1)",
+              marginBottom: "1rem",
+              fontFamily: "Oswald",
+            }}
+          >
+            BOOKING
+          </h2>
         </div>
 
         <div style={styles.form}>
           {/* Service Selection */}
-          <div style={styles.section}>
+          {/* <div style={styles.section}>
             <h3 style={styles.sectionTitle}>Select Service</h3>
             <div style={styles.serviceGrid}>
               {services.map((service) => (
@@ -214,7 +205,7 @@ export default function BookingPage() {
                   }
                 >
                   <h4 style={styles.serviceName}>{service.name}</h4>
-                  {/* <p style={styles.serviceDuration}>{service.duration}</p> */}
+                  //  <p style={styles.serviceDuration}>{service.duration}</p>
                   <p style={styles.servicePrice}>{service.price}</p>
                 </div>
               ))}
@@ -222,7 +213,7 @@ export default function BookingPage() {
             {errors.service && (
               <span style={styles.errorText}>{errors.service}</span>
             )}
-          </div>
+          </div>*/}
 
           {/* Date & Time Selection */}
           <div style={styles.section}>
@@ -358,7 +349,7 @@ export default function BookingPage() {
           </div>
 
           <button type="button" style={styles.submitBtn} onClick={handleSubmit}>
-            Confirm Booking
+            SEND
           </button>
         </div>
       </div>
@@ -378,18 +369,14 @@ export default function BookingPage() {
 
 const styles = {
   container: {
-    minHeight: "100vh",
-    background: "#fff",
+    background: "#EEEEEE",
     padding: "20px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "Arial",
+    fontFamily: "Inter",
   },
   bookingCard: {
-    backgroundColor: "white",
-    borderRadius: "16px",
-    boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
     padding: "40px",
     maxWidth: "800px",
     width: "100%",
@@ -400,7 +387,7 @@ const styles = {
   },
   title: {
     fontSize: "32px",
-    color: "#231c23",
+    color: "#231F20",
     margin: "0 0 10px 0",
     fontWeight: "700",
   },
@@ -421,7 +408,7 @@ const styles = {
   },
   sectionTitle: {
     fontSize: "20px",
-    color: "#231c23",
+    color: "#231F20",
     margin: 0,
     fontWeight: "600",
   },
@@ -431,7 +418,7 @@ const styles = {
     gap: "16px",
   },
   serviceCard: {
-    border: "2px solid #e9e7e8",
+    border: "2px solid #fff",
     borderRadius: "12px",
     padding: "20px",
     cursor: "pointer",
@@ -439,12 +426,12 @@ const styles = {
     textAlign: "center",
   },
   serviceCardSelected: {
-    border: "2px solid #231c23",
+    border: "2px solid #231F20",
     transform: "translateY(-2px)",
   },
   serviceName: {
     fontSize: "18px",
-    color: "#231c23",
+    color: "#231F20",
     margin: "0 0 8px 0",
     fontWeight: "600",
   },
@@ -476,43 +463,42 @@ const styles = {
   },
   label: {
     fontSize: "14px",
-    color: "#231c23",
+    color: "#231F20",
     fontWeight: "500",
   },
   input: {
     padding: "12px 16px",
-    border: "2px solid #231c23",
-    borderRadius: "8px",
+    border: "none",
+    fontFamily: "Inter",
     fontSize: "16px",
     transition: "border-color 0.2s ease",
     outline: "none",
     background: "#fff",
-    color: "#231c23",
+    color: "#231F20",
   },
   inputError: {
     borderColor: "#ef4444",
   },
   textarea: {
     padding: "12px 16px",
-    border: "2px solid #231c23",
-    borderRadius: "8px",
+    border: "none",
     fontSize: "16px",
     transition: "border-color 0.2s ease",
     outline: "none",
     resize: "vertical",
     fontFamily: "inherit",
     background: "#fff",
-    color: "#231c23",
+    color: "#231F20",
   },
   errorText: {
     color: "#ef4444",
     fontSize: "14px",
   },
   submitBtn: {
-    backgroundColor: "#231c23",
-    color: "#e9e7e8",
+    fontFamily: "Oswald",
+    backgroundColor: "#231F20",
+    color: "#fff",
     border: "none",
-    borderRadius: "12px",
     padding: "16px 32px",
     fontSize: "18px",
     fontWeight: "600",
@@ -521,9 +507,7 @@ const styles = {
     marginTop: "20px",
   },
   successCard: {
-    backgroundColor: "white",
-    borderRadius: "16px",
-    boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+    backgroundColor: "#EEEEE",
     padding: "60px 40px",
     maxWidth: "500px",
     width: "100%",
@@ -544,27 +528,31 @@ const styles = {
   },
   successTitle: {
     fontSize: "28px",
-    color: "#231c23",
+    color: "#231F20",
     margin: "0 0 16px 0",
     fontWeight: "700",
+    color: "rgba(35, 31, 32, 1)",
+    fontFamily: "Oswald",
   },
   successMessage: {
     fontSize: "16px",
     color: "#666",
     margin: "0 0 32px 0",
+    fontFamily: "Inter",
     lineHeight: "1.5",
   },
   bookingDetails: {
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#EEEE",
     borderRadius: "12px",
     padding: "24px",
     marginBottom: "32px",
     textAlign: "left",
-    color: "#231c23",
+    fontFamily: "Inter",
+    color: "#231F20",
   },
   newBookingBtn: {
-    backgroundColor: "#231c23",
-    color: "#e9e7e8",
+    backgroundColor: "#231F20",
+    color: "#fff",
     border: "none",
     borderRadius: "12px",
     padding: "14px 28px",
