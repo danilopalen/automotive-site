@@ -57,76 +57,53 @@ function generateEmailContent(booking) {
   };
 }
 
-function convertTimeToDateString(dateString, timeString) {
-  // Get the current date to combine with the time
-  const now = new Date(dateString);
+function generateICSFile(booking) {
+  // const dateAndTime = booking.date.replace("00:00:00", `${booking.time}:00`);
+  // Parse the date (2025-06-23)
+  const [year, month, day] = booking.date.split("-").map(Number);
 
-  // Parse the time string
-  const [time, period] = timeString
-    .replace("am", " am")
-    .replace("pm", " pm")
-    .split(" "); // Separates "10:30" and "am"
-  let [hours, minutes] = time.split(":").map(Number); // Separates "10" and "30" and converts to numbers
+  // Parse the time (02:30pm)
+  const timeRegex = /^(\d{1,2}):(\d{2})\s*(am|pm)$/i;
+  const timeMatch = booking.time.toLowerCase().match(timeRegex);
 
-  // Adjust hours for PM
-  if (period.toLowerCase() === "pm" && hours < 12) {
-    hours += 12;
+  if (!timeMatch) {
+    throw new Error('Invalid time format. Use format like "02:30pm"');
   }
-  // Adjust hours for 12 AM (midnight)
-  if (period.toLowerCase() === "am" && hours === 12) {
+
+  let hours = parseInt(timeMatch[1]);
+  const minutes = parseInt(timeMatch[2]);
+  const period = timeMatch[3];
+
+  // Convert to 24-hour format
+  if (period === "pm" && hours !== 12) {
+    hours += 12;
+  } else if (period === "am" && hours === 12) {
     hours = 0;
   }
 
-  // Set the hours and minutes on the current date object
-  now.setHours(hours);
-  now.setMinutes(minutes);
-  now.setSeconds(0); // Set seconds to 0 for consistency
-  now.setMilliseconds(0); // Set milliseconds to 0 for consistency
+  // Create the date in New Zealand timezone
+  const eventStart = new Date(year, month - 1, day, hours, minutes, 0);
+  const eventEnd = new Date(eventStart.getTime() + 60 * 60 * 1000); // 1 hour duration
 
-  // Format the Date object into a desired string format
-  // Example: "YYYY-MM-DDTHH:mm:ss.sssZ" (ISO 8601 format)
-  const isoString = now.toISOString();
-
-  // Example: "MM/DD/YYYY, HH:MM:SS AM/PM" (localized string)
-  const localizedString = now.toLocaleString("en-NZ", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true, // Use 12-hour format with AM/PM
+  const calendar = ical({
+    domain: "zipangautomotive.co.nz",
+    name: "Booking with Zipang Automotive",
+    // timezone: "Pacific/Auckland",
   });
 
-  return {
-    dateObject: now,
-    isoString: isoString,
-    localizedString: localizedString,
-  };
-}
-
-function generateICSFile(booking) {
-  const calendar = ical({ name: "Booking with Zipang Automotive" });
-  // const dateAndTime = booking.date.replace("00:00:00", `${booking.time}:00`);
-  const startDate = convertTimeToDateString(
-    booking.date,
-    booking.time
-  ).dateObject;
-  const endDate = new Date(
-    startDate.getTime() + (booking.duration || 60) * 60000
-  );
-
   calendar.createEvent({
-    start: startDate,
-    end: endDate,
+    start: eventStart,
+    end: eventEnd,
     summary: `${booking.service} with Zipang Automotive`,
     description: `${booking.service} booking for ${booking.firstName}`,
     location: "8/74 Westpoint Drive. Hobsonville Auckland 0618",
-    timezone: "Pacific/Auckland", // Key point for NZ timezone
+    uid: `${Date.now()}@zipangautomotive.co.nz`,
+    // timezone: "Pacific/Auckland", // Key point for NZ timezone
     organizer: {
       name: "Zipang Automotive",
       email: process.env.NEXT_PUBLIC_EMAIL_FROM_ADDRESS,
     },
+    url: "https://zipangautomotive.co.nz/",
   });
 
   return calendar.toString();
