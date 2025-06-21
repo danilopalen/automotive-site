@@ -379,7 +379,12 @@ const AutomotiveLanding = () => {
                   alignItems: "center",
                 }}
               >
-                <Image src={facebook} alt="Zipang automotive facebook" />
+                <a
+                  href="https://www.facebook.com/profile.php?id=61574054820747#"
+                  target="_blank"
+                >
+                  <Image src={facebook} alt="Zipang automotive facebook" />
+                </a>
                 <Image src={instagram} alt="Zipang automotive instagram" />
                 <Image src={whatsapp} alt="Zipang automotive whatsapp" />
               </div>
