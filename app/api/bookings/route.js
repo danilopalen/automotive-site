@@ -29,6 +29,9 @@ function generateEmailContent(booking) {
         dateStyle: "short",
       }).format(new Date(booking.date))}
       Time: ${booking.time}
+      Location: 8/74 Westpoint Drive. Hobsonville Auckland 0618
+      Notes: ${booking.notes}
+
 
       If you have any questions, please don't hesitate to reach out.
 
@@ -49,6 +52,7 @@ function generateEmailContent(booking) {
           }).format(new Date(booking.date))}</p>
           <p><strong>Time:</strong> ${booking.time}</p>
           <p><strong>Location:</strong>8/74 Westpoint Drive. Hobsonville Auckland 0618</p>
+          <p><strong>Notes:</strong> ${booking.notes || ""}</p>
         </div>
 
         <p>Best regards,<br>Zipang Automotive</p>
