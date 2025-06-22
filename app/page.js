@@ -380,13 +380,23 @@ const AutomotiveLanding = () => {
                 }}
               >
                 <a
-                  href="https://www.facebook.com/profile.php?id=61574054820747#"
+                  href="https://www.facebook.com/share/1Qziok2wUj/"
                   target="_blank"
                 >
                   <Image src={facebook} alt="Zipang automotive facebook" />
                 </a>
-                <Image src={instagram} alt="Zipang automotive instagram" />
-                <Image src={whatsapp} alt="Zipang automotive whatsapp" />
+                <a
+                  href="https://www.instagram.com/zipangautomotive?igsh=azAxZW1weW5xZ2Jx"
+                  target="_blank"
+                >
+                  <Image src={instagram} alt="Zipang automotive instagram" />
+                </a>
+                <a
+                  href="https://api.whatsapp.com/send/?phone=64221711078&text&type=phone_number&app_absent=0"
+                  target="_blank"
+                >
+                  <Image src={whatsapp} alt="Zipang automotive whatsapp" />
+                </a>
               </div>
             </div>
             <span
