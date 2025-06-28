@@ -156,7 +156,7 @@ const AutomotiveLanding = () => {
                   border: "1px solid rgba(170, 170, 170, 0.3)",
                   background: "#231F20",
                   textAlign: "center",
-                  padding: "0 12px",
+                  padding: "10px 12px",
                 }}
               >
                 <div

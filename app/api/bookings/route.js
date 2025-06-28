@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import ical from "ical-generator";
 import nodemailer from "nodemailer";
+import moment from "moment-timezone";
 
 // Email transport configuration
 const transporter = nodemailer.createTransport({
@@ -30,6 +31,11 @@ function generateEmailContent(booking) {
       }).format(new Date(booking.date))}
       Time: ${booking.time}
       Location: 8/74 Westpoint Drive. Hobsonville Auckland 0618
+      Email: ${booking.email}
+      Phone number: ${booking.phone}
+      Vehicle make: ${booking.make}
+      Vehicle model: ${booking.model}
+      Vehicle registration: ${booking.rego}
       Notes: ${booking.notes}
 
 
@@ -52,6 +58,11 @@ function generateEmailContent(booking) {
           }).format(new Date(booking.date))}</p>
           <p><strong>Time:</strong> ${booking.time}</p>
           <p><strong>Location:</strong>8/74 Westpoint Drive. Hobsonville Auckland 0618</p>
+          <p><strong>Email:</strong> ${booking.email}</p>
+          <p><strong>Phone number:</strong> ${booking.phone}</p>
+          <p><strong>Vehicle make:</strong> ${booking.make}</p>
+          <p><strong>Vehicle model:</strong> ${booking.model}</p>
+          <p><strong>Vehicle registration:</strong> ${booking.rego}</p>
           <p><strong>Notes:</strong> ${booking.notes || ""}</p>
         </div>
 
@@ -60,39 +71,79 @@ function generateEmailContent(booking) {
     `,
   };
 }
+// Function to add event with correct Auckland time
+function addAucklandEvent(options) {
+  const { date, startTime, endTime, duration = 1 } = options;
+
+  // Parse time in format like "09:30am" or "02:00pm"
+  function parseTime(timeStr) {
+    const match = timeStr.toLowerCase().match(/^(\d{1,2}):(\d{2})(am|pm)$/);
+
+    if (!match) {
+      throw new Error(
+        `Invalid time format: ${timeStr}. Expected format: 09:30am or 02:00pm`
+      );
+    }
+
+    let [, hoursStr, minutesStr, period] = match;
+    let hours = parseInt(hoursStr, 10);
+    let minutes = parseInt(minutesStr, 10);
+
+    // Convert to 24-hour format
+    if (period === "pm" && hours !== 12) {
+      hours += 12;
+    } else if (period === "am" && hours === 12) {
+      hours = 0;
+    }
+
+    return { hours, minutes };
+  }
+
+  const startTimeParsed = parseTime(startTime);
+  const [year, month, day] = date.split("-").map(Number);
+
+  // Create dates as Auckland local time
+  // This approach treats the input as local Auckland time
+  const startDate = new Date(
+    year,
+    month - 1,
+    day,
+    startTimeParsed.hours,
+    startTimeParsed.minutes,
+    0,
+    0
+  );
+  const endDate = new Date(
+    year,
+    month - 1,
+    day,
+    startTimeParsed.hours + duration,
+    startTimeParsed.minutes,
+    0,
+    0
+  );
+
+  return {
+    eventStart: moment(startDate).tz("Pacific/Auckland").toDate(),
+    eventEnd: moment(endDate).tz("Pacific/Auckland").toDate(),
+  };
+}
 
 function generateICSFile(booking) {
-  // const dateAndTime = booking.date.replace("00:00:00", `${booking.time}:00`);
-  // Parse the date (2025-06-23)
-  const [year, month, day] = booking.date.split("-").map(Number);
-
-  // Parse the time (02:30pm)
-  const timeRegex = /^(\d{1,2}):(\d{2})\s*(am|pm)$/i;
-  const timeMatch = booking.time.toLowerCase().match(timeRegex);
-
-  if (!timeMatch) {
-    throw new Error('Invalid time format. Use format like "02:30pm"');
-  }
-
-  let hours = parseInt(timeMatch[1]);
-  const minutes = parseInt(timeMatch[2]);
-  const period = timeMatch[3];
-
-  // Convert to 24-hour format
-  if (period === "pm" && hours !== 12) {
-    hours += 12;
-  } else if (period === "am" && hours === 12) {
-    hours = 0;
-  }
-
-  // Create the date in New Zealand timezone
-  const eventStart = new Date(year, month - 1, day, hours, minutes, 0);
-  const eventEnd = new Date(eventStart.getTime() + 60 * 60 * 1000); // 1 hour duration
+  const { eventStart, eventEnd } = addAucklandEvent({
+    date: booking.date,
+    startTime: booking.time,
+  });
 
   const calendar = ical({
     domain: "zipangautomotive.co.nz",
     name: "Booking with Zipang Automotive",
-    // timezone: "Pacific/Auckland",
+    timezone: "Pacific/Auckland",
+    method: "PUBLISH",
+    prodId: {
+      company: "Zipang Automotive",
+      product: "Booking",
+    },
   });
 
   calendar.createEvent({
@@ -102,7 +153,7 @@ function generateICSFile(booking) {
     description: `${booking.service} booking for ${booking.firstName}`,
     location: "8/74 Westpoint Drive. Hobsonville Auckland 0618",
     uid: `${Date.now()}@zipangautomotive.co.nz`,
-    // timezone: "Pacific/Auckland", // Key point for NZ timezone
+    timezone: "Pacific/Auckland", // Key point for NZ timezone,
     organizer: {
       name: "Zipang Automotive",
       email: process.env.NEXT_PUBLIC_EMAIL_FROM_ADDRESS,

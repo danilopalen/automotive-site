@@ -4,6 +4,35 @@ import logo from "../../public/photos/zipangautomotive.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+const weekEnds = [
+  "09:00am",
+  "10:00am",
+  "11:00am",
+  "12:00pm",
+  "01:00pm",
+  "02:00pm",
+];
+
+const weekDays = [
+  "09:00am",
+  "10:00am",
+  "11:00am",
+  "12:00pm",
+  "01:00pm",
+  "02:00pm",
+  "03:00pm",
+  "04:00pm",
+  "05:00pm",
+];
+
+function getTomorrow() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1); // even 32 is acceptable
+  return `${tomorrow.getFullYear()}-${
+    (tomorrow.getMonth() + 1 + "").length === 1 ? "0" : ""
+  }${tomorrow.getMonth() + 1}-${tomorrow.getDate()}`;
+}
+
 export default function BookingPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -14,9 +43,12 @@ export default function BookingPage() {
     lastName: "",
     email: "",
     phone: "",
+    make: "",
+    model: "",
+    rego: "",
     notes: "",
   });
-
+  const [timeSlots, setTimeSlots] = useState(undefined);
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -49,26 +81,13 @@ export default function BookingPage() {
     {
       id: "Puncture Repair",
       name: "Puncture Repair",
-      price: "TBA",
+      price: "$30 + GST",
     },
     {
       id: "Diagnosis",
       name: "Diagnosis",
       price: "TBA",
     },
-  ];
-
-  const timeSlots = [
-    "08:30am",
-    "09:30am",
-    "10:30am",
-    "11:30am",
-    "12:30pm",
-    "01:30pm",
-    "02:30pm",
-    "03:30pm",
-    "04:30pm",
-    "05:30pm",
   ];
 
   const handleInputChange = (e) => {
@@ -85,6 +104,17 @@ export default function BookingPage() {
         [name]: "",
       }));
     }
+
+    if (name === "date") {
+      console.log("🚀 ~ handleInputChange ~ value:", value);
+      const day = new Date(value).getDay();
+      console.log("🚀 ~ handleInputChange ~ day:", day);
+      if (day === 0 || day === 6) {
+        setTimeSlots(weekEnds);
+      } else {
+        setTimeSlots(weekDays);
+      }
+    }
   };
 
   const validateForm = () => {
@@ -94,6 +124,9 @@ export default function BookingPage() {
     if (!formData.date) newErrors.date = "Please select a date";
     if (!formData.time) newErrors.time = "Please select a time";
     if (!formData.firstName) newErrors.firstName = "First name is required";
+    if (!formData.make) newErrors.make = "Vehicle make is required";
+    if (!formData.model) newErrors.model = "Vehicle model is required";
+    if (!formData.rego) newErrors.rego = "Vehicle registration is required";
     if (!formData.lastName) newErrors.lastName = "Last name is required";
     if (!formData.email) newErrors.email = "Email is required";
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
@@ -135,7 +168,8 @@ export default function BookingPage() {
   };
 
   // Get today's date for min date attribute
-  const today = new Date().toISOString().split("T")[0];
+  const today = getTomorrow();
+  console.log("🚀 ~ BookingPage ~ today:", today);
 
   if (isSubmitted) {
     return (
@@ -152,6 +186,15 @@ export default function BookingPage() {
             <p>
               <strong>Service:</strong>{" "}
               {services.find((s) => s.id === formData.service)?.name}
+            </p>
+            <p>
+              <strong>Vehicle make:</strong> {formData.make}
+            </p>
+            <p>
+              <strong>Vehicle model:</strong> {formData.model}
+            </p>
+            <p>
+              <strong>Time:</strong> {formData.time}
             </p>
             <p>
               <strong>Date:</strong>{" "}
@@ -239,25 +282,29 @@ export default function BookingPage() {
               </div>
 
               <div style={styles.inputGroup}>
-                <label style={styles.label}>Time</label>
-                <select
-                  name="time"
-                  value={formData.time}
-                  onChange={handleInputChange}
-                  style={{
-                    ...styles.input,
-                    ...(errors.time ? styles.inputError : {}),
-                  }}
-                >
-                  <option value="">Select time</option>
-                  {timeSlots.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select>
-                {errors.time && (
-                  <span style={styles.errorText}>{errors.time}</span>
+                {timeSlots && (
+                  <>
+                    <label style={styles.label}>Time</label>
+                    <select
+                      name="time"
+                      value={formData.time}
+                      onChange={handleInputChange}
+                      style={{
+                        ...styles.input,
+                        ...(errors.time ? styles.inputError : {}),
+                      }}
+                    >
+                      <option value="">Select time</option>
+                      {timeSlots.map((time) => (
+                        <option key={time} value={time}>
+                          {time}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.time && (
+                      <span style={styles.errorText}>{errors.time}</span>
+                    )}
+                  </>
                 )}
               </div>
             </div>
@@ -265,6 +312,61 @@ export default function BookingPage() {
 
           {/* Contact Information */}
           <div style={styles.section}>
+            <h3 style={styles.sectionTitle}>Vehicle Information</h3>
+            <div style={styles.nameRow}>
+              <div style={styles.inputGroup}>
+                <label style={styles.label}>Make</label>
+                <input
+                  type="text"
+                  name="make"
+                  value={formData.make}
+                  onChange={handleInputChange}
+                  style={{
+                    ...styles.input,
+                    ...(errors.make ? styles.inputError : {}),
+                  }}
+                />
+                {errors.make && (
+                  <span style={styles.errorText}>{errors.make}</span>
+                )}
+              </div>
+
+              <div style={styles.inputGroup}>
+                <label style={styles.label}>Model</label>
+                <input
+                  type="text"
+                  name="model"
+                  value={formData.model}
+                  onChange={handleInputChange}
+                  style={{
+                    ...styles.input,
+                    ...(errors.model ? styles.inputError : {}),
+                  }}
+                />
+                {errors.model && (
+                  <span style={styles.errorText}>{errors.model}</span>
+                )}
+              </div>
+            </div>
+            <div style={styles.nameRow}>
+              <div style={styles.inputGroup}>
+                <label style={styles.label}>Registration</label>
+                <input
+                  type="text"
+                  name="rego"
+                  value={formData.rego}
+                  onChange={handleInputChange}
+                  style={{
+                    ...styles.input,
+                    ...(errors.rego ? styles.inputError : {}),
+                  }}
+                />
+                {errors.rego && (
+                  <span style={styles.errorText}>{errors.rego}</span>
+                )}
+              </div>
+              <div style={styles.inputGroup}></div>
+            </div>
             <h3 style={styles.sectionTitle}>Contact Information</h3>
             <div style={styles.nameRow}>
               <div style={styles.inputGroup}>
@@ -346,6 +448,18 @@ export default function BookingPage() {
                 style={styles.textarea}
                 placeholder="Any specific requirements or questions..."
               />
+            </div>
+            <h3 style={styles.sectionTitle}>Notice to Our Valued Customers:</h3>
+            <div>
+              Please note that we are unable to accommodate vehicles longer
+              than&nbsp;<b>5.5 meters</b> due to space limitations. We kindly
+              ask you to check your vehicle length before booking or visiting.
+              Thank you for your understanding and support!
+            </div>
+            <h3 style={styles.sectionTitle}>Need Help with Your Booking?</h3>
+            <div>
+              For urgent enquiries or if the available times don’t suit you,
+              please call or text us on 022 171 1078 and we’ll be happy to help.
             </div>
           </div>
 
