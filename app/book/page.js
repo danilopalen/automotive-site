@@ -1,8 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../public/photos/zipangautomotive.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ref, onValue } from "firebase/database";
+import { db } from "../firebase";
+// const bookingCountRef = ref(db, "bookings/");
+const blockedDatesRef = ref(db, "blockedDates/");
 
 const weekEnds = [
   "09:00am",
@@ -52,6 +56,34 @@ export default function BookingPage() {
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const [data, setData] = useState(undefined);
+  const [blockedDates, setBlockedDates] = useState([]);
+  useEffect(() => {
+    // onValue(bookingCountRef, (snapshot) => {
+    //   const arr = [];
+    //   const values = snapshot.val();
+    //   for (const key in values) {
+    //     if (Object.prototype.hasOwnProperty.call(values, key)) {
+    //       const element = values[key];
+    //       arr.push(element);
+    //     }
+    //   }
+    //   setData(arr);
+    // });
+
+    onValue(blockedDatesRef, (snapshot) => {
+      const arr = [];
+      const values = snapshot.val();
+      for (const key in values) {
+        if (Object.prototype.hasOwnProperty.call(values, key)) {
+          const element = values[key];
+          arr.push({ ...element, id: key });
+        }
+      }
+      setBlockedDates(arr.map(({ date }) => date));
+    });
+  }, []);
+
   const services = [
     {
       id: "WOF",
@@ -92,6 +124,14 @@ export default function BookingPage() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (blockedDates.includes(value)) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "Selected date is blocked. Please select a different date.",
+      }));
+      return;
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -169,7 +209,6 @@ export default function BookingPage() {
 
   // Get today's date for min date attribute
   const today = getTomorrow();
-  console.log("🚀 ~ BookingPage ~ today:", today);
 
   if (isSubmitted) {
     return (
