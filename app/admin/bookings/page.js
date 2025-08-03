@@ -44,7 +44,7 @@ const BookingsPage = () => {
 
   const styles = {
     container: {
-      padding: "20px",
+      padding: "100px 20px 20px 20px",
       minHeight: "100vh",
       backgroundColor: "#fff",
       margin: "0 auto",
