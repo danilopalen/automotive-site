@@ -14,6 +14,7 @@ export default function RootLayout({ children }) {
   };
   return (
     <html lang="en">
+      <title>Zipang Automotive</title>
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <body>
         <div
