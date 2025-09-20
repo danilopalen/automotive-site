@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import logo from "../../public/photos/zipangautomotive.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, remove } from "firebase/database";
 import { db, writeUserData } from "../firebase";
 const bookingCountRef = ref(db, "bookings/");
 const blockedDatesRef = ref(db, "blockedDates/");
@@ -66,7 +67,14 @@ export default function BookingPage() {
       for (const key in values) {
         if (Object.prototype.hasOwnProperty.call(values, key)) {
           const element = values[key];
-          arr.push(element);
+          if (moment(element.date).isBefore(moment())) {
+            const bookingRef = ref(db, "bookings/" + key);
+            remove(bookingRef)
+              .then((res) => console.log("deleted: ", key))
+              .catch((err) => console.log("error: ", err));
+          } else {
+            arr.push(element);
+          }
         }
       }
       setData(arr);
