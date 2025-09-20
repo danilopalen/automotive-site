@@ -4,8 +4,8 @@ import logo from "../../public/photos/zipangautomotive.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ref, onValue } from "firebase/database";
-import { db } from "../firebase";
-// const bookingCountRef = ref(db, "bookings/");
+import { db, writeUserData } from "../firebase";
+const bookingCountRef = ref(db, "bookings/");
 const blockedDatesRef = ref(db, "blockedDates/");
 
 const weekEnds = [
@@ -57,19 +57,20 @@ export default function BookingPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [data, setData] = useState(undefined);
+  const [bookedTimes, setBookedTimes] = useState([]);
   const [blockedDates, setBlockedDates] = useState([]);
   useEffect(() => {
-    // onValue(bookingCountRef, (snapshot) => {
-    //   const arr = [];
-    //   const values = snapshot.val();
-    //   for (const key in values) {
-    //     if (Object.prototype.hasOwnProperty.call(values, key)) {
-    //       const element = values[key];
-    //       arr.push(element);
-    //     }
-    //   }
-    //   setData(arr);
-    // });
+    onValue(bookingCountRef, (snapshot) => {
+      const arr = [];
+      const values = snapshot.val();
+      for (const key in values) {
+        if (Object.prototype.hasOwnProperty.call(values, key)) {
+          const element = values[key];
+          arr.push(element);
+        }
+      }
+      setData(arr);
+    });
 
     onValue(blockedDatesRef, (snapshot) => {
       const arr = [];
@@ -146,9 +147,21 @@ export default function BookingPage() {
     }
 
     if (name === "date") {
-      console.log("🚀 ~ handleInputChange ~ value:", value);
+      setFormData((prev) => ({
+        ...prev,
+        time: "",
+      }));
+
+      if (data && data.length > 0) {
+        const bookings = data.filter((el) => el.date === value);
+        if (bookings.length > 0) {
+          setBookedTimes(bookings.map(({ time }) => time));
+        } else {
+          setBookedTimes([]);
+        }
+      }
+
       const day = new Date(value).getDay();
-      console.log("🚀 ~ handleInputChange ~ day:", day);
       if (day === 0 || day === 6) {
         setTimeSlots(weekEnds);
       } else {
@@ -183,6 +196,9 @@ export default function BookingPage() {
     if (Object.keys(newErrors).length === 0) {
       setIsSubmitted(true);
       console.log("Booking submitted:", formData);
+      const transaction_id = Date.now();
+      writeUserData(formData, transaction_id);
+
       try {
         const response = await fetch("/api/bookings", {
           method: "POST",
@@ -335,8 +351,14 @@ export default function BookingPage() {
                     >
                       <option value="">Select time</option>
                       {timeSlots.map((time) => (
-                        <option key={time} value={time}>
-                          {time}
+                        <option
+                          key={time}
+                          value={time}
+                          disabled={bookedTimes.includes(time) ? true : false}
+                        >
+                          {`${time} ${
+                            bookedTimes.includes(time) ? "(booked)" : ""
+                          }`}
                         </option>
                       ))}
                     </select>
