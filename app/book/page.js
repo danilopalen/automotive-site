@@ -67,7 +67,11 @@ export default function BookingPage() {
       for (const key in values) {
         if (Object.prototype.hasOwnProperty.call(values, key)) {
           const element = values[key];
-          if (moment(element.date).isBefore(moment())) {
+          const todayDate = new Date().toISOString().slice(0, 10);
+          if (
+            element.date !== todayDate &&
+            moment(element.date).isBefore(moment())
+          ) {
             const bookingRef = ref(db, "bookings/" + key);
             remove(bookingRef)
               .then((res) => console.log("deleted: ", key))
